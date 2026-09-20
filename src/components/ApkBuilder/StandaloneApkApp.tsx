@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 
 export const StandaloneApkApp: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'architecture' | 'main_activity' | 'service' | 'manifest' | 'github_actions'>('architecture');
+  const [activeTab, setActiveTab] = useState<'architecture' | 'local_build' | 'main_activity' | 'service' | 'manifest' | 'github_actions'>('local_build');
   const [copied, setCopied] = useState<string | null>(null);
 
   const handleCopy = (key: string, text: string) => {
@@ -317,6 +317,15 @@ jobs:
       {/* Sekmeler */}
       <div className="flex items-center gap-1 px-4 py-2 bg-[#1b1b1b] border-b border-zinc-800 overflow-x-auto text-[11px]">
         <button
+          onClick={() => setActiveTab('local_build')}
+          className={`px-3 py-1.5 rounded-lg font-medium transition-colors flex items-center gap-1.5 ${
+            activeTab === 'local_build' ? 'bg-[#E95420] text-white' : 'text-zinc-400 hover:text-white hover:bg-zinc-800'
+          }`}
+        >
+          <Smartphone className="w-3.5 h-3.5 text-emerald-400" />
+          <span>Bilgisayarda APK Derleme (Capacitor)</span>
+        </button>
+        <button
           onClick={() => setActiveTab('architecture')}
           className={`px-3 py-1.5 rounded-lg font-medium transition-colors flex items-center gap-1.5 ${
             activeTab === 'architecture' ? 'bg-[#E95420] text-white' : 'text-zinc-400 hover:text-white hover:bg-zinc-800'
@@ -365,6 +374,80 @@ jobs:
 
       {/* İçerik */}
       <div className="flex-1 p-4 overflow-y-auto">
+        {activeTab === 'local_build' && (
+          <div className="max-w-3xl space-y-5">
+            <div className="p-4 bg-emerald-950/30 border border-emerald-800/60 rounded-2xl space-y-2">
+              <div className="flex items-center gap-2">
+                <Smartphone className="w-4 h-4 text-emerald-400" />
+                <h3 className="text-sm font-semibold text-white">Bilgisayarınızda APK Üretme (1. Yöntem)</h3>
+              </div>
+              <p className="text-zinc-300 text-xs leading-relaxed">
+                Bu projeye <strong>Capacitor Android</strong> altyapısı başarıyla entegre edildi. Bilgisayarınızda terminali açıp aşağıdaki 3 basit komutu çalıştırarak kendi <strong>.apk</strong> dosyanızı oluşturabilirsiniz.
+              </p>
+            </div>
+
+            {/* Adım 1 */}
+            <div className="p-4 bg-zinc-900 border border-zinc-800 rounded-2xl space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2 text-xs font-semibold text-white">
+                  <span className="w-5 h-5 rounded-full bg-emerald-600 flex items-center justify-center text-[11px] font-bold">1</span>
+                  <span>Projeyi Derleyin ve Android Platformunu Ekleyin (Tek Seferlik)</span>
+                </div>
+                <button
+                  onClick={() => handleCopy('cmd1', 'npm install && npm run build && npx cap add android')}
+                  className="flex items-center gap-1 px-2.5 py-1 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded text-[10px] transition-colors"
+                >
+                  {copied === 'cmd1' ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                  <span>{copied === 'cmd1' ? 'Kopyalandı' : 'Kopyala'}</span>
+                </button>
+              </div>
+              <pre className="p-3 bg-black/80 rounded-xl font-mono text-[11px] text-emerald-400 border border-zinc-800">
+                npm install && npm run build && npx cap add android
+              </pre>
+              <p className="text-zinc-400 text-[11px]">
+                Bu komut projenizin içine hazır <code>android/</code> klasörünü (tam teşekküllü Android Studio projesi) oluşturur.
+              </p>
+            </div>
+
+            {/* Adım 2 */}
+            <div className="p-4 bg-zinc-900 border border-zinc-800 rounded-2xl space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2 text-xs font-semibold text-white">
+                  <span className="w-5 h-5 rounded-full bg-emerald-600 flex items-center justify-center text-[11px] font-bold">2</span>
+                  <span>APK Dosyasını Otomatik Derleyin (Komut Satırından)</span>
+                </div>
+                <button
+                  onClick={() => handleCopy('cmd2', 'npx cap sync android && cd android && ./gradlew assembleDebug')}
+                  className="flex items-center gap-1 px-2.5 py-1 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded text-[10px] transition-colors"
+                >
+                  {copied === 'cmd2' ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                  <span>{copied === 'cmd2' ? 'Kopyalandı' : 'Kopyala'}</span>
+                </button>
+              </div>
+              <pre className="p-3 bg-black/80 rounded-xl font-mono text-[11px] text-cyan-400 border border-zinc-800">
+                npx cap sync android && cd android && ./gradlew assembleDebug
+              </pre>
+              <p className="text-zinc-400 text-[11px]">
+                *(Windows PowerShell veya CMD kullanıyorsanız <code>gradlew assembleDebug</code> yazın).*
+              </p>
+            </div>
+
+            {/* Adım 3 Sonuç */}
+            <div className="p-4 bg-zinc-900 border border-zinc-800 rounded-2xl space-y-2">
+              <div className="flex items-center gap-2 text-xs font-semibold text-emerald-400">
+                <Check className="w-4 h-4" />
+                <span>Hazır APK Dosyanızın Konumu</span>
+              </div>
+              <div className="p-3 bg-black/60 rounded-xl border border-zinc-800 font-mono text-zinc-200 text-[11px]">
+                📂 android/app/build/outputs/apk/debug/app-debug.apk
+              </div>
+              <p className="text-zinc-400 text-[11px]">
+                Bu <code>app-debug.apk</code> dosyasını telefonunuza gönderip (WhatsApp, Google Drive veya USB kablo ile) doğrudan yükleyebilirsiniz!
+              </p>
+            </div>
+          </div>
+        )}
+
         {activeTab === 'architecture' && (
           <div className="max-w-3xl space-y-6">
             <div className="p-4 bg-zinc-900/90 border border-zinc-800 rounded-2xl space-y-3">
