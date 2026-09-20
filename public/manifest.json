@@ -1,0 +1,17 @@
+{
+  "name": "Ubuntu 24.04 ARM64",
+  "short_name": "Ubuntu Desktop",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#181818",
+  "theme_color": "#E95420",
+  "description": "Android üzerinde root olmadan çalışan Ubuntu ARM64 Masaüstü ve Geliştirme Ortamı",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}

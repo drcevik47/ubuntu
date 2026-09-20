@@ -1,0 +1,6 @@
+{
+  "name": "Android Linux Desktop",
+  "description": "Android üzerinde root olmadan PRoot ve Ubuntu 24.04 ARM64 masaüstü çalıştırma, tarayıcı/webview üzerinden noVNC masaüstü deneyimi ve otomatik kurulum sistemi.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
